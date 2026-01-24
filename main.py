@@ -1,3 +1,4 @@
+import argparse
 import os
 from dotenv import load_dotenv
 from google import genai
@@ -6,10 +7,15 @@ load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
 
 def main():
-    print("Hello from ai-agent!")
+    #print("Hello from ai-agent!")
     client = genai.Client(api_key=api_key)
-    prompt = "Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum."
-    response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)#
+
+    parser = argparse.ArgumentParser(description="Chatbot")
+    parser.add_argument("user_prompt", type=str, help="User prompt")
+    args = parser.parse_args()
+
+    prompt = args.user_prompt
+    response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
 
     if response.usage_metadata is None:
         raise RuntimeError("Something went wrong. LLM API response does not contain expected data.")
