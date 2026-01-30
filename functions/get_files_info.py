@@ -2,6 +2,7 @@ import os
 
 
 def get_files_info(working_directory, directory="."):
+  try:
     # Working directory ist set by us. directory is set by ai-agent. 
     # We need to mitigate potential path traversal vulnerabilities first:
 
@@ -29,3 +30,5 @@ def get_files_info(working_directory, directory="."):
 
                   
     return result
+  except Exception as e:
+     return f"Error: {e}"
